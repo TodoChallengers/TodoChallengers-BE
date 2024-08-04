@@ -30,7 +30,7 @@ public class PublicChallengeService {
         if (challengeRepository.existsById(id)) {
             return challengeRepository.save(challenge);
         } else {
-            throw new IllegalArgumentException("Challenge with id " + id + " does not exist");
+            throw new IllegalArgumentException(id + "의 챌린지가 없음~");
         }
     }
 
