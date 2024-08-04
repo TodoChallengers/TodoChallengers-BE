@@ -26,6 +26,14 @@ public class PublicChallengeService {
         return challengeRepository.findById(id);
     }
 
+    public Challenge updateChallenge(UUID id, Challenge challenge) {
+        if (challengeRepository.existsById(id)) {
+            return challengeRepository.save(challenge);
+        } else {
+            throw new IllegalArgumentException("Challenge with id " + id + " does not exist");
+        }
+    }
+
     public void deleteChallenge(UUID challengeId) {
         challengeRepository.deleteById(challengeId);
     }

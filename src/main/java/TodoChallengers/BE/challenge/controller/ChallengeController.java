@@ -28,7 +28,7 @@ public class ChallengeController {
                 .start(requestDto.getStart())
                 .end(requestDto.getEnd())
                 .category(requestDto.getCategory())
-                .state(requestDto.getState())
+                .state("PUBLIC")
                 .challengeLeaderId(UUID.fromString(requestDto.getChallengeLeaderId()))
                 .build();
 
@@ -43,6 +43,21 @@ public class ChallengeController {
     @GetMapping("/challenge/{id}")
     public Optional<Challenge> getChallenge(@PathVariable UUID id) {
         return publicChallengeService.getChallengeById(id);
+    }
+
+    @PutMapping("/challenge/{id}")
+    public Challenge updateChallenge(@PathVariable UUID id, @RequestBody PublicChallengeRequestDto requestDto) {
+        Challenge challenge = Challenge.builder()
+                .id(id)
+                .challengeName(requestDto.getChallengeName())
+                .start(requestDto.getStart())
+                .end(requestDto.getEnd())
+                .category(requestDto.getCategory())
+                .state(requestDto.getState())
+                .challengeLeaderId(UUID.fromString(requestDto.getChallengeLeaderId()))
+                .build();
+
+        return publicChallengeService.updateChallenge(id, challenge);
     }
 
     @DeleteMapping("/challenge/{id}")
