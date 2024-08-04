@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class PublicChallengeService {
@@ -16,7 +18,15 @@ public class PublicChallengeService {
         return challengeRepository.save(challenge);
     }
 
-    public List<Challenge> getAllChallenges() {
-        return challengeRepository.findAll();
+    public List<Challenge> getAllPublicChallenges() {
+        return challengeRepository.findByState("PUBLIC");
+    }
+
+    public Optional<Challenge> getChallengeById(UUID id) {
+        return challengeRepository.findById(id);
+    }
+
+    public void deleteChallenge(UUID challengeId) {
+        challengeRepository.deleteById(challengeId);
     }
 }

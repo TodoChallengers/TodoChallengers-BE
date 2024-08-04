@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -36,6 +37,16 @@ public class ChallengeController {
 
     @GetMapping("/challenge")
     public List<Challenge> getAllChallenges() {
-        return publicChallengeService.getAllChallenges();
+        return publicChallengeService.getAllPublicChallenges();
+    }
+
+    @GetMapping("/challenge/{id}")
+    public Optional<Challenge> getChallenge(@PathVariable UUID id) {
+        return publicChallengeService.getChallengeById(id);
+    }
+
+    @DeleteMapping("/challenge/{id}")
+    public void deleteChallenge(@PathVariable UUID id) {
+        publicChallengeService.deleteChallenge(id);
     }
 }

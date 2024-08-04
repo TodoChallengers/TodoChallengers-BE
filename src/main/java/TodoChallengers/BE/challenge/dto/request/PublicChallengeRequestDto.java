@@ -17,6 +17,6 @@ public class PublicChallengeRequestDto {
     private Date start;
     private Date end;
     private String category;
-    private String state;
+    private String state = "PUBLIC"; // 기본 값 공개로 설정
     private String challengeLeaderId;
 }
