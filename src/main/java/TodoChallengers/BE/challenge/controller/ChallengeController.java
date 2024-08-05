@@ -4,9 +4,11 @@ import TodoChallengers.BE.challenge.application.PublicChallengeService;
 import TodoChallengers.BE.challenge.application.UserChallengeService;
 import TodoChallengers.BE.challenge.dto.request.PublicChallengeRequestDto;
 import TodoChallengers.BE.challenge.entity.Challenge;
+import TodoChallengers.BE.challenge.entity.Participant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -22,6 +24,8 @@ public class ChallengeController {
 
     @PostMapping("/challenge")
     public Challenge createChallenge(@RequestBody PublicChallengeRequestDto requestDto) {
+        UUID leaderId = UUID.fromString(requestDto.getChallengeLeaderId());
+
         Challenge challenge = Challenge.builder()
                 .id(UUID.randomUUID()) // 새로운 ID를 자동으로 생성
                 .challengeName(requestDto.getChallengeName())
@@ -29,8 +33,10 @@ public class ChallengeController {
                 .end(requestDto.getEnd())
                 .category(requestDto.getCategory())
                 .state("PUBLIC")
-                .challengeLeaderId(UUID.fromString(requestDto.getChallengeLeaderId()))
+                .challengeLeaderId(leaderId)
+                .participants(new HashSet<>())
                 .build();
+        challenge.getParticipants().add(Participant.builder().participantId(leaderId).build());
 
         return publicChallengeService.saveChallenge(challenge);
     }

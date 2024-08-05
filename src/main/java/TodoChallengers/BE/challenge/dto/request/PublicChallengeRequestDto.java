@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 @Getter
-
 @Data
 @NoArgsConstructor
 public class PublicChallengeRequestDto {
