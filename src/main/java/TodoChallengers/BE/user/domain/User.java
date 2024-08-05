@@ -2,6 +2,7 @@ package TodoChallengers.BE.user.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -21,4 +22,11 @@ public class User {
     private String nickname;
 
     private String profileImage;
+
+    @Builder
+    public User(Long kakaoId, String nickname, String profileImage) {
+        this.kakaoId = kakaoId;
+        this.nickname = nickname;
+        this.profileImage = profileImage;
+    }
 }
