@@ -8,4 +8,5 @@ import java.util.UUID;
 
 public interface ChallengeRepository extends MongoRepository<Challenge, UUID> {
     List<Challenge> findByState(String state);
+    List<Challenge> findByParticipantsParticipantId(UUID userId);
 }
