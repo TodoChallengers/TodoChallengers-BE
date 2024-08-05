@@ -15,13 +15,13 @@ import java.util.Optional;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api")
-public class ChallengeController {
+@RequestMapping("/api/public")
+public class PublicChallengeController {
     @Autowired
     private PublicChallengeService publicChallengeService;
 
-    @Autowired
-    private UserChallengeService userChallengeService;
+//    @Autowired
+//    private UserChallengeService userChallengeService;
 
     /*
     * 현재 모집 중인 챌린지 관련
@@ -79,22 +79,22 @@ public class ChallengeController {
     /*
     * 모집 중인 챌린지에 사용자 들어가기
     */
-    @PostMapping("/user/challenge")
-    public Challenge participateChallenge(@RequestBody UserChallengeRequestDto requestDto) {
-        UUID userId = UUID.fromString(requestDto.getUserId());
-        UUID challengeId = UUID.fromString(requestDto.getChallengeId());
-        return userChallengeService.participateInChallenge(userId,challengeId);
-    }
-
-    @DeleteMapping("/user/challenge")
-    public Challenge quiteChallenge(@RequestBody UserChallengeRequestDto requestDto) {
-        UUID userId = UUID.fromString(requestDto.getUserId());
-        UUID challengeId = UUID.fromString(requestDto.getChallengeId());
-        return userChallengeService.quiteFromChallenge(userId,challengeId);
-    }
-
-    @GetMapping("/user/challenge/{userId}")
-    public List<Challenge> getChallengeByUserId(@PathVariable UUID userId) {
-        return userChallengeService.getAllUserChallenges(userId);
-    }
+//    @PostMapping("/user/challenge")
+//    public Challenge participateChallenge(@RequestBody UserChallengeRequestDto requestDto) {
+//        UUID userId = UUID.fromString(requestDto.getUserId());
+//        UUID challengeId = UUID.fromString(requestDto.getChallengeId());
+//        return userChallengeService.participateInChallenge(userId,challengeId);
+//    }
+//
+//    @DeleteMapping("/user/challenge")
+//    public Challenge quiteChallenge(@RequestBody UserChallengeRequestDto requestDto) {
+//        UUID userId = UUID.fromString(requestDto.getUserId());
+//        UUID challengeId = UUID.fromString(requestDto.getChallengeId());
+//        return userChallengeService.quiteFromChallenge(userId,challengeId);
+//    }
+//
+//    @GetMapping("/user/challenge/{userId}")
+//    public List<Challenge> getChallengeByUserId(@PathVariable UUID userId) {
+//        return userChallengeService.getAllUserChallenges(userId);
+//    }
 }
