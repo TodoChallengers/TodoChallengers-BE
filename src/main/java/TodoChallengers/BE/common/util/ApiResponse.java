@@ -29,10 +29,6 @@ public class ApiResponse<T> {
         return new ApiResponse<>(SUCCESS, data, message);
     }
 
-    public static <T> ApiResponse<T> created(T data, String message) {
-        return new ApiResponse<>(CREATED, data, message);
-    }
-
     public static <T> ApiResponse<T> fail(ResponseCode responseCode, String message) {
         return new ApiResponse<>(responseCode.getHttpStatus().value(), message);
     }
