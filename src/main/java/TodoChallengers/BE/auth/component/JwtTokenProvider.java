@@ -12,8 +12,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.annotation.PostConstruct;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.Base64;
 import java.util.Date;
 
@@ -70,7 +70,7 @@ public class JwtTokenProvider {
     }
 
     /**
-     * 토큰 유효성 검사
+     * 토큰 유효성 검사 / 만료 일자 확인
      * @param jwtToken
      * @return
      */
