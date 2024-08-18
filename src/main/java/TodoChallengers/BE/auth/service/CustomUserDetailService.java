@@ -1,33 +1,29 @@
 package TodoChallengers.BE.auth.service;
 
-
-import TodoChallengers.BE.auth.component.KakaoUserInfo;
-import TodoChallengers.BE.auth.dto.KakaoUserInfoResponse;
-import TodoChallengers.BE.user.domain.User;
+import TodoChallengers.BE.common.util.ResponseCode;
 import TodoChallengers.BE.user.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-
-@RequiredArgsConstructor
+@Slf4j
 @Service
-public class KakaoAuthService {
+public class CustomUserDetailService implements UserDetailsService {
 
-    private final KakaoUserInfo kakaoUserInfo;
     private final UserRepository userRepository;
 
-    @Transactional
-    public Long userLogin(String token) {
-        KakaoUserInfoResponse userInfo = kakaoUserInfo.getUserInfo(token);
-        Optional<User> user = userRepository.findByKakaoId(userInfo.getId());
-        if(user.isPresent()) {
-            return user.get().getId();
-        }
-        else {
-            User newUser = User.builder().kakaoId(userInfo.getId()).nickname(userInfo.getKakao_account().getProfile().getNickname()).profileImage(userInfo.getKakao_account().getProfile().getProfile_image_url()).build();
-            return userRepository.save(newUser).getId();
-        }
+    @Autowired
+    public CustomUserDetailService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String kakaoId) throws UsernameNotFoundException {
+        log.info("loadUserByUsername: {}", kakaoId);
+        return (UserDetails) userRepository.findById(Long.parseLong(kakaoId))
+                .orElseThrow(() -> new UsernameNotFoundException(ResponseCode.USER_NOT_FOUND.getMessage()));
     }
 }
