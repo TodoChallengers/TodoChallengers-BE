@@ -1,33 +1,32 @@
 package TodoChallengers.BE.auth.controller;
 
-import TodoChallengers.BE.auth.component.JwtTokenProvider;
-import TodoChallengers.BE.auth.dto.ResponseJwtDto;
-import TodoChallengers.BE.auth.service.KakaoAuthService;
+import TodoChallengers.BE.auth.dto.LoginResponse;
+import TodoChallengers.BE.auth.dto.ReissueResponse;
+import TodoChallengers.BE.auth.service.AuthService;
 import TodoChallengers.BE.common.util.ApiResponse;
 import TodoChallengers.BE.common.util.ResponseCode;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-@RequiredArgsConstructor
+
 @RestController
 @RequestMapping("/api/auth")
+@RequiredArgsConstructor
 public class AuthController {
-    private final KakaoAuthService kakaoAuthService;
-    private final JwtTokenProvider jwtTokenProvider;
+    private final AuthService authService;
 
-    /**
-     * 회원가입 여부 확인
-     * 회원이면 token 발급
-     * @param accessToken
-     * @return
-     */
-    @PostMapping("/login")
-    public ApiResponse<ResponseJwtDto> authCheck(@RequestHeader String accessToken) {
-        Long userId = kakaoAuthService.userLogin(accessToken); // 유저 고유번호 추출
-        String userJwt = jwtTokenProvider.createToken(userId.toString());
-        return ApiResponse.success(ResponseJwtDto.of(userId, userJwt), ResponseCode.USER_LOGINED.getMessage());
+    @GetMapping("/login/oauth/kakao")
+    public ApiResponse<LoginResponse> loginWithKakao(@RequestParam("code") String code) {
+        return ApiResponse.success(authService.loginWithKakao(code), ResponseCode.USER_LOGIN_SUCCESS.getMessage());
+    }
+
+    @GetMapping("/reissue")
+    public ApiResponse<ReissueResponse> reissue(@RequestHeader(value = "Authorization", required = false) String authorizationHeader) {
+        return ApiResponse.success(authService.reissue(authorizationHeader), ResponseCode.USER_TOKEN_REISSUE_SUCCESS.getMessage());
+    }
+
+    @GetMapping("/validate")
+    public ApiResponse<Boolean> validateToken(@RequestHeader(value = "Authorization", required = false) String authorizationHeader) {
+        return ApiResponse.success(authService.validateToken(authorizationHeader), ResponseCode.USER_TOKEN_VALIDATE_SUCCESS.getMessage());
     }
 }
