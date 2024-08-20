@@ -88,10 +88,10 @@ public class AuthServiceImpl implements AuthService {
         String accessToken = jwtProvider.getTokenFromAuthorizationHeader(authorizationHeader);
 
         // access_token으로부터 refreshId 추출 (DB Token 테이블의 ID)
-        Long refreshTokenId = jwtProvider.getRefreshIdFromExpiredToken(accessToken);
+        String refreshTokenId = jwtProvider.getRefreshIdFromExpiredToken(accessToken);
 
         // refresh_token 조회
-        Token refreshTokenRecord = tokenRepository.findById(refreshTokenId)
+        Token refreshTokenRecord = tokenRepository.findById(Long.valueOf(refreshTokenId))
                 .orElseThrow(() -> new AuthException(ResponseCode.UNAUTHORIZED));
 
         // refresh_token 유효 기간 검증

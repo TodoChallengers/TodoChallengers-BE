@@ -30,7 +30,7 @@ public class JwtProvider implements InitializingBean {
         this.secretkey = Keys.hmacShaKeyFor(secretKeyBytes);
     }
 
-    public String createAccessToken(String kakaoId, Long refreshId) {
+    public String createAccessToken(String kakaoId, String refreshId) {
         Date now = new Date();
         Date expiration = new Date(now.getTime() + jwtProperties.getAccessTokenValidityInSeconds() * 1000);
 
@@ -115,16 +115,16 @@ public class JwtProvider implements InitializingBean {
         }
     }
 
-    public Long getRefreshIdFromExpiredToken(String token) {
+    public String getRefreshIdFromExpiredToken(String token) {
         try {
             return Jwts.parser()
                     .verifyWith((SecretKey) secretkey)
                     .build()
                     .parseSignedClaims(token)
                     .getPayload()
-                    .get("refreshId", Long.class);
+                    .get("refreshId", String.class);
         } catch (ExpiredJwtException e) {
-            return e.getClaims().get("refreshId", Long.class);
+            return e.getClaims().get("refreshId", String.class);
         }
     }
 
