@@ -4,6 +4,7 @@ import TodoChallengers.BE.auth.config.KakaoLoginProperties;
 import TodoChallengers.BE.auth.dto.KakaoIdTokenPublicKeyList;
 import TodoChallengers.BE.auth.dto.KakaoToken;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpHeaders;
@@ -16,6 +17,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 @Component
 @RequiredArgsConstructor
 @CacheConfig(cacheNames = "kakaoPublicKeyList")
+@Slf4j
 public class KakaoProvider {
     private final KakaoLoginProperties kakaoLoginProperties;
 
@@ -29,8 +31,7 @@ public class KakaoProvider {
                         fromFormData("grant_type", "authorization_code")
                         .with("client_id", kakaoLoginProperties.getClientId())
                         .with("redirect_uri", kakaoLoginProperties.getRedirectUri())
-                        .with("code", code)
-                        .with("client_secret", kakaoLoginProperties.getClientSecret()))
+                        .with("code", code))
                 .retrieve()
                 .bodyToMono(KakaoToken.class)
                 .block();
