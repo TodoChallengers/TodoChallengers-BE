@@ -15,7 +15,7 @@ import java.util.UUID;
 @Builder
 public class Participant {
     private UUID participantId;
-    private List<ChallengeChecklist> challengeChecklist;
+    private List<ChallengeChecklist> challengeChecklist = new ArrayList<>();;
 
     public void addChecklist(ChallengeChecklist checklist) {
         if (this.challengeChecklist == null) {
