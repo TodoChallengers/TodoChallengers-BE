@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -46,7 +47,7 @@ public class ReactionService {
                             .build();
 
                     if (checklist.getReaction() == null) {
-                        checklist.setReaction(new ArrayList<>());
+                        checklist.setReaction(new HashSet<>());
                     }
 
                     checklist.getReaction().add(reaction);

@@ -5,10 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Getter
 @NoArgsConstructor
@@ -19,15 +16,15 @@ public class ChallengeChecklist {
     private Date checklistDate;
     private String checklistPhoto;
     private String state;
-    private List<Reaction> reaction;
+    private Set<Reaction> reaction = new HashSet<>();
 
-    public void setReaction(List<Reaction> reaction) {
+    public void setReaction(Set<Reaction> reaction) {
         this.reaction = reaction;
     }
 
     public void addReaction(Reaction reaction) {
         if (this.reaction == null) {
-            this.reaction = new ArrayList<>();
+            this.reaction = new HashSet<>();
         }
         this.reaction.add(reaction);
     }
