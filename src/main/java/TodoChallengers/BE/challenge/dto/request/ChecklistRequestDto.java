@@ -3,6 +3,7 @@ package TodoChallengers.BE.challenge.dto.request;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 
@@ -19,6 +20,6 @@ public class ChecklistRequestDto {
     public static class ChecklistDto{
         private String challengeId;
         private Date checklistDate;
-        private String checklistPhoto;
+        private MultipartFile checklistPhoto;
     }
 }

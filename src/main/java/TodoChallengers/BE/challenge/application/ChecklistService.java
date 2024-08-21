@@ -13,6 +13,7 @@ import java.util.UUID;
 
 @Service
 public class ChecklistService {
+
     @Autowired
     private ChallengeRepository challengeRepository;
 
