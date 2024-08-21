@@ -15,7 +15,7 @@ import java.util.UUID;
 @Builder
 public class ChallengeChecklist {
     private UUID checklistId;
-    private Date checklistDate;
+    //private Date checklistDate;
     private String checklistPhoto;
     private String state;
     private List<Reaction> reaction;

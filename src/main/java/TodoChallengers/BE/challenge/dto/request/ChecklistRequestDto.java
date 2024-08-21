@@ -19,7 +19,7 @@ public class ChecklistRequestDto {
     @NoArgsConstructor
     public static class ChecklistDto{
         private String challengeId;
-        private Date checklistDate;
+        //private Date checklistDate;
         private MultipartFile checklistPhoto;
     }
 }
