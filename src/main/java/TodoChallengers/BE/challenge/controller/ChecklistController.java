@@ -5,6 +5,7 @@ import TodoChallengers.BE.challenge.application.S3ImageService;
 import TodoChallengers.BE.challenge.dto.request.ChecklistRequestDto;
 import TodoChallengers.BE.challenge.entity.Challenge;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,31 +35,16 @@ public class ChecklistController {
     public ResponseEntity<Challenge> createChecklist(
             @RequestParam("userId") String userId,
             @RequestParam("challengeId") String challengeId,
-            @RequestParam("checklistDate") String checklistDateStr,
+            @RequestParam("checklistDate") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,
             @RequestParam("file") MultipartFile checklistPhoto) {
 
-        // userId 검증
-        if (userId == null || userId.trim().isEmpty()) {
-            throw new IllegalArgumentException("User ID cannot be null or empty");
-        }
-
-        // challengeId 검증
-        if (challengeId == null || challengeId.trim().isEmpty()) {
-            throw new IllegalArgumentException("Challenge ID cannot be null or empty");
-        }
-
-        // file 검증
-        if (checklistPhoto == null || checklistPhoto.isEmpty()) {
-            throw new IllegalArgumentException("Checklist Photo file cannot be null or empty");
-        }
-
-        // checklistDate 검증 및 변환
+        System.out.println("date!!"+date);
 
         // DTO 생성 및 데이터 설정
         ChecklistRequestDto requestDto = new ChecklistRequestDto();
         ChecklistRequestDto.ChecklistDto checklistDto = new ChecklistRequestDto.ChecklistDto();
         checklistDto.setChallengeId(challengeId);
-        //checklistDto.setChecklistDate(java.sql.Date.valueOf(checklistDate)); // Date 형식에 맞게 변환
+        checklistDto.setChecklistDate(java.sql.Date.valueOf(date)); // Date 형식에 맞게 변환
         checklistDto.setChecklistPhoto(checklistPhoto);
 
         requestDto.setUserId(userId);

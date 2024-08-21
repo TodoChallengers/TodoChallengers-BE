@@ -44,7 +44,7 @@ public class ChecklistService {
 
             ChallengeChecklist checklist = ChallengeChecklist.builder()
                     .checklistId(UUID.randomUUID())
-                    //.checklistDate(requestDto.getChecklist().getChecklistDate())
+                    .checklistDate(requestDto.getChecklist().getChecklistDate())
                     .checklistPhoto(imageUrl)
                     .state("PUBLIC")
                     .build();
