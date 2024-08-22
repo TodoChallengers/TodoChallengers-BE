@@ -2,6 +2,7 @@ package TodoChallengers.BE.challenge.controller;
 
 import TodoChallengers.BE.challenge.application.PublicChallengeService;
 import TodoChallengers.BE.challenge.dto.request.PublicChallengeRequestDto;
+import TodoChallengers.BE.challenge.dto.response.ChallengeResponseDto;
 import TodoChallengers.BE.challenge.dto.response.PublicChallengeResponseDto;
 import TodoChallengers.BE.challenge.entity.Challenge;
 import TodoChallengers.BE.challenge.entity.Participant;
@@ -51,8 +52,8 @@ public class PublicChallengeController {
     }
 
     @GetMapping("/challenge/{id}")
-    public Optional<Challenge> getChallenge(@PathVariable UUID id) {
-        return publicChallengeService.getChallengeById(id);
+    public Optional<ChallengeResponseDto> getChallenge(@PathVariable UUID id) {
+        return publicChallengeService.getPublicChallengeById(id);
     }
 
     @PutMapping("/challenge/{id}")
