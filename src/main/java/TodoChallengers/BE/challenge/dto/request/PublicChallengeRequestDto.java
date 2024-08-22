@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.UUID;
 
 @Getter
 @Data
@@ -17,5 +18,5 @@ public class PublicChallengeRequestDto {
     private Date end;
     private String category;
     private String state; // 기본 값 공개로 설정
-    private String challengeLeaderId;
+    private UUID challengeLeaderId;
 }

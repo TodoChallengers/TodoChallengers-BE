@@ -23,15 +23,9 @@ public class ChecklistService {
     private S3ImageService s3ImageService;
 
     public Challenge createChecklist(ChecklistRequestDto requestDto){
-        String userIdString = requestDto.getUserId();
-        String challengeIdString = requestDto.getChecklist().getChallengeId();
+        UUID userId = requestDto.getUserId();
+        UUID challengeId = requestDto.getChecklist().getChallengeId();
 
-        if (userIdString == null || challengeIdString == null) {
-            throw new IllegalArgumentException("User ID or Challenge ID cannot be null");
-        }
-
-        UUID userId = UUID.fromString(requestDto.getUserId());
-        UUID challengeId = UUID.fromString(requestDto.getChecklist().getChallengeId());
         Optional<Challenge> optionalChallenge = challengeRepository.findById(challengeId);
 
         if(optionalChallenge.isPresent()){

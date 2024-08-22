@@ -6,19 +6,20 @@ import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
+import java.util.UUID;
 
 @Getter
 @Data
 @NoArgsConstructor
 public class ChecklistRequestDto {
-    private String userId;
+    private UUID userId;
     //private String token;
     private ChecklistDto checklist;
     @Getter
     @Data
     @NoArgsConstructor
     public static class ChecklistDto{
-        private String challengeId;
+        private UUID challengeId;
         private Date checklistDate;
         private MultipartFile checklistPhoto;
     }

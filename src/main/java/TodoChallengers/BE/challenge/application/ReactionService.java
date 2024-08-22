@@ -20,8 +20,8 @@ public class ReactionService {
     private ChallengeRepository challengeRepository;
 
     public Challenge addReaction(ReactionRequestDto reactionRequestDto) {
-        UUID checklistId = UUID.fromString(reactionRequestDto.getChecklistId());
-        UUID userId = UUID.fromString(reactionRequestDto.getUserId());
+        UUID checklistId = reactionRequestDto.getChecklistId();
+        UUID userId = reactionRequestDto.getUserId();
 
         // Challenge 조회
         Optional<Challenge> optionalChallenge = challengeRepository.findByParticipantsParticipantId(userId).stream()

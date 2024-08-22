@@ -17,15 +17,15 @@ public class UserChallengeController {
 
     @PostMapping("/user/challenge")
     public Challenge participateChallenge(@RequestBody UserChallengeRequestDto requestDto) {
-        UUID userId = UUID.fromString(requestDto.getUserId());
-        UUID challengeId = UUID.fromString(requestDto.getChallengeId());
+        UUID userId = requestDto.getUserId();
+        UUID challengeId = requestDto.getChallengeId();
         return userChallengeService.participateInChallenge(userId,challengeId);
     }
 
     @DeleteMapping("/user/challenge")
     public Challenge quiteChallenge(@RequestBody UserChallengeRequestDto requestDto) {
-        UUID userId = UUID.fromString(requestDto.getUserId());
-        UUID challengeId = UUID.fromString(requestDto.getChallengeId());
+        UUID userId = requestDto.getUserId();
+        UUID challengeId = requestDto.getChallengeId();
         return userChallengeService.quiteFromChallenge(userId,challengeId);
     }
 

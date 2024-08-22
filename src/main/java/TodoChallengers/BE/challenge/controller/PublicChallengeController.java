@@ -29,7 +29,7 @@ public class PublicChallengeController {
 
     @PostMapping("/challenge")
     public Challenge createChallenge(@RequestBody PublicChallengeRequestDto requestDto) {
-        UUID leaderId = UUID.fromString(requestDto.getChallengeLeaderId());
+        UUID leaderId = requestDto.getChallengeLeaderId();
 
         Challenge challenge = Challenge.builder()
                 .id(UUID.randomUUID()) // 새로운 ID를 자동으로 생성
@@ -65,7 +65,7 @@ public class PublicChallengeController {
                 .end(requestDto.getEnd())
                 .category(requestDto.getCategory())
                 .state(requestDto.getState())
-                .challengeLeaderId(UUID.fromString(requestDto.getChallengeLeaderId()))
+                .challengeLeaderId(requestDto.getChallengeLeaderId())
                 .build();
 
         return publicChallengeService.updateChallenge(id, challenge);

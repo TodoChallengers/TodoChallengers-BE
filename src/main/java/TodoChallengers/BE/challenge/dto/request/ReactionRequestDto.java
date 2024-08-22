@@ -4,11 +4,13 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @Getter
 @Data
 @NoArgsConstructor
 public class ReactionRequestDto {
-    private String userId;
+    private UUID userId;
     //private String token;
-    private String checklistId;
+    private UUID checklistId;
 }

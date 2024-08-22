@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.Date;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/user")
@@ -31,8 +32,8 @@ public class ChecklistController {
 
     @PostMapping(value = "/checklist", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Challenge> createChecklist(
-            @RequestParam("userId") String userId,
-            @RequestParam("challengeId") String challengeId,
+            @RequestParam("userId") UUID userId,
+            @RequestParam("challengeId") UUID challengeId,
             @RequestParam("checklistDate") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,
             @RequestParam("file") MultipartFile checklistPhoto) {
 
