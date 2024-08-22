@@ -41,4 +41,10 @@ public class UserChallengeService {
     public List<Challenge> getAllUserChallenges(UUID userId) {
         return challengeRepository.findByParticipantsParticipantId(userId);
     }
+
+    public Optional<Challenge> getUserChallengeById(UUID userId, UUID challengeId) {
+        return challengeRepository.findById(challengeId)
+                .filter(challenge -> challenge.getParticipants().stream()
+                        .anyMatch(participant -> participant.getParticipantId().equals(userId)));
+    }
 }

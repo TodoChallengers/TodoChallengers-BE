@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -32,5 +33,10 @@ public class UserChallengeController {
     @GetMapping("/challenge/{userId}")
     public List<Challenge> getChallengeByUserId(@PathVariable UUID userId) {
         return userChallengeService.getAllUserChallenges(userId);
+    }
+
+    @GetMapping("/challenge/{userId}/{challengeId}")
+    public Optional<Challenge> getUserChallengeById(@PathVariable UUID userId, @PathVariable UUID challengeId) {
+        return userChallengeService.getUserChallengeById(userId, challengeId);
     }
 }
