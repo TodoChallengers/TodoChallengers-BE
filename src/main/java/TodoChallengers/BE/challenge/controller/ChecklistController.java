@@ -4,6 +4,7 @@ import TodoChallengers.BE.challenge.application.ChecklistService;
 import TodoChallengers.BE.challenge.application.S3ImageService;
 import TodoChallengers.BE.challenge.dto.request.ChecklistRequestDto;
 import TodoChallengers.BE.challenge.dto.request.DeleteChecklistRequestDto;
+import TodoChallengers.BE.challenge.dto.response.ChallengeChecklistResponseDto;
 import TodoChallengers.BE.challenge.entity.Challenge;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -15,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.Date;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -43,7 +45,7 @@ public class ChecklistController {
         ChecklistRequestDto requestDto = new ChecklistRequestDto();
         ChecklistRequestDto.ChecklistDto checklistDto = new ChecklistRequestDto.ChecklistDto();
         checklistDto.setChallengeId(challengeId);
-        checklistDto.setChecklistDate(java.sql.Date.valueOf(date)); // Date 형식에 맞게 변환
+        checklistDto.setChecklistDate(date); // Date 형식에 맞게 변환
         checklistDto.setChecklistPhoto(checklistPhoto);
 
         requestDto.setUserId(userId);
@@ -59,5 +61,11 @@ public class ChecklistController {
     public ResponseEntity<Challenge> deleteChecklist(@RequestBody DeleteChecklistRequestDto requestDto){
         checklistService.deleteChecklist(requestDto);
         return ResponseEntity.ok().build();
+    }
+
+    // 오늘 날짜 모든 참가자의 인증
+    @GetMapping("/checklist/today/{challengeId}")
+    public Optional<ChallengeChecklistResponseDto> getTodayChecklistForChallenge(@PathVariable("challengeId") UUID challengeId){
+        return checklistService.getTodayCechklistsForChallenge(challengeId);
     }
 }

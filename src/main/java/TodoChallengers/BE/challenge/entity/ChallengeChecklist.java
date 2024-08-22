@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.*;
 
 @Getter
@@ -13,7 +14,7 @@ import java.util.*;
 @Builder
 public class ChallengeChecklist {
     private UUID checklistId;
-    private Date checklistDate;
+    private LocalDate checklistDate;
     private String checklistPhoto;
     private String state;
     private Set<Reaction> reaction = new HashSet<>();

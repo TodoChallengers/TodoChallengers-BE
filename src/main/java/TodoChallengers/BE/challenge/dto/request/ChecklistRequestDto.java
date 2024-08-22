@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.UUID;
 
@@ -20,7 +21,7 @@ public class ChecklistRequestDto {
     @NoArgsConstructor
     public static class ChecklistDto{
         private UUID challengeId;
-        private Date checklistDate;
+        private LocalDate checklistDate;
         private MultipartFile checklistPhoto;
     }
 }
