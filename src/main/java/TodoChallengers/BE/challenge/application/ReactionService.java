@@ -21,18 +21,15 @@ public class ReactionService {
     private ChallengeRepository challengeRepository;
 
     public Challenge addReaction(ReactionRequestDto reactionRequestDto) {
+        UUID challengeId = reactionRequestDto.getChallengeId();
         UUID checklistId = reactionRequestDto.getChecklistId();
         UUID userId = reactionRequestDto.getUserId();
 
         // Challenge 조회
-        Optional<Challenge> optionalChallenge = challengeRepository.findByParticipantsParticipantId(userId).stream()
-                .filter(challenge -> challenge.getParticipants().stream()
-                        .anyMatch(participant -> participant.getChallengeChecklist().stream()
-                                .anyMatch(checklist -> checklist.getChecklistId().equals(checklistId))))
-                .findFirst();
+        Optional<Challenge> optionalChallenge = challengeRepository.findById(challengeId);
 
         if (optionalChallenge.isEmpty()) {
-            throw new IllegalArgumentException("Challenge or Checklist not found");
+            throw new IllegalArgumentException("Challenge not found");
         }
 
         Challenge challenge = optionalChallenge.get();
@@ -42,7 +39,6 @@ public class ReactionService {
             for (ChallengeChecklist checklist : participant.getChallengeChecklist()) {
                 if (checklist.getChecklistId().equals(checklistId)) {
                     Reaction reaction = Reaction.builder()
-
                             .reactionId(UUID.randomUUID())
                             .reactionGiverId(userId)
                             .build();

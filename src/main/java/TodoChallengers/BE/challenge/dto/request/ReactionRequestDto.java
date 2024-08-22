@@ -12,5 +12,6 @@ import java.util.UUID;
 public class ReactionRequestDto {
     private UUID userId;
     //private String token;
+    private UUID challengeId;
     private UUID checklistId;
 }
