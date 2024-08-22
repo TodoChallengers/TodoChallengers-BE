@@ -1,7 +1,6 @@
 package TodoChallengers.BE.user.repository;
 
 import TodoChallengers.BE.user.domain.User;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.Optional;
