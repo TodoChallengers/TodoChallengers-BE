@@ -1,6 +1,7 @@
 package TodoChallengers.BE.challenge.application;
 
 import TodoChallengers.BE.challenge.dto.request.ChecklistRequestDto;
+import TodoChallengers.BE.challenge.dto.request.DeleteChecklistRequestDto;
 import TodoChallengers.BE.challenge.entity.Challenge;
 import TodoChallengers.BE.challenge.entity.ChallengeChecklist;
 import TodoChallengers.BE.challenge.entity.Participant;
@@ -58,6 +59,38 @@ public class ChecklistService {
             return challengeRepository.save(challenge);
         } else{
             throw new IllegalArgumentException("챌린지 ㄴㄴ");
+        }
+    }
+
+    public void deleteChecklist(DeleteChecklistRequestDto requestDto){
+        UUID challengeId = requestDto.getChallengeId();
+        UUID checklistId = requestDto.getChecklistId();
+
+        Optional<Challenge> optionalChallenge = challengeRepository.findById(challengeId);
+        if(optionalChallenge.isPresent()){
+            Challenge challenge = optionalChallenge.get();
+            boolean checklistFound = false;
+
+            for(Participant participant : challenge.getParticipants()){
+                for(ChallengeChecklist checklist : participant.getChallengeChecklist()){
+                    if(checklist.getChecklistId().equals(checklistId)){
+                        // s3에서 이미지 삭제
+                        s3ImageService.deleteImageFromS3(checklist.getChecklistPhoto());
+                        // 해당 participant에서 해당 checklist 삭제
+                        participant.getChallengeChecklist().remove(checklist);
+                        checklistFound = true;
+                        break;
+                    }
+                }
+                if(checklistFound) break;
+            }
+            if(checklistFound){
+                challengeRepository.save(challenge);
+            } else{
+                throw new IllegalArgumentException("해당 챌린지에서 해당 체크리스트 없음~");
+            }
+        } else{
+            throw new IllegalArgumentException("존재하지 않는 챌린지~");
         }
     }
 }

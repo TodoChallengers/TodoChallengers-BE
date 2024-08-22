@@ -3,6 +3,7 @@ package TodoChallengers.BE.challenge.controller;
 import TodoChallengers.BE.challenge.application.ChecklistService;
 import TodoChallengers.BE.challenge.application.S3ImageService;
 import TodoChallengers.BE.challenge.dto.request.ChecklistRequestDto;
+import TodoChallengers.BE.challenge.dto.request.DeleteChecklistRequestDto;
 import TodoChallengers.BE.challenge.entity.Challenge;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -19,13 +20,10 @@ import java.util.Date;
 @RequestMapping("/api/user")
 public class ChecklistController {
 //    @Autowired
-//    private ChecklistService checklistService;
-//
-//    @PostMapping("/checklist")
-//    public Challenge certifyChecklist(@RequestBody ChecklistRequestDto requestDto){
-//        return checklistService.createChecklist(requestDto);
-//    }
-    private final ChecklistService checklistService;
+//    private S3ImageService s3ImageService;
+
+    @Autowired
+    private ChecklistService checklistService;
 
     public ChecklistController(ChecklistService checklistService) {
         this.checklistService = checklistService;
@@ -56,12 +54,9 @@ public class ChecklistController {
         return ResponseEntity.ok(createdChallenge);
     }
 
-    @Autowired
-    private S3ImageService s3ImageService;
-
-    @PostMapping(value = "/test/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
-        String fileUrl = s3ImageService.upload(file);
-        return ResponseEntity.ok(fileUrl);
+    @DeleteMapping("/checklist")
+    public ResponseEntity<Challenge> deleteChecklist(@RequestBody DeleteChecklistRequestDto requestDto){
+        checklistService.deleteChecklist(requestDto);
+        return ResponseEntity.ok().build();
     }
 }
