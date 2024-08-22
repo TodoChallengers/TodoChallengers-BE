@@ -1,5 +1,6 @@
 package TodoChallengers.BE.challenge.application;
 
+import TodoChallengers.BE.challenge.dto.response.PublicChallengeResponseDto;
 import TodoChallengers.BE.challenge.entity.Challenge;
 import TodoChallengers.BE.challenge.repository.ChallengeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class PublicChallengeService {
@@ -18,8 +20,14 @@ public class PublicChallengeService {
         return challengeRepository.save(challenge);
     }
 
-    public List<Challenge> getAllPublicChallenges() {
-        return challengeRepository.findByState("PUBLIC");
+//    public List<Challenge> getAllPublicChallenges() {
+//        return challengeRepository.findByState("PUBLIC");
+//    }
+    public List<PublicChallengeResponseDto> getAllPublicChallenges() {
+        List<Challenge> challenges = challengeRepository.findByState("PUBLIC");
+        return challenges.stream()
+                .map(challenge -> new PublicChallengeResponseDto(challenge.getId(), challenge.getChallengeName()))
+                .collect(Collectors.toList());
     }
 
     public Optional<Challenge> getChallengeById(UUID id) {
