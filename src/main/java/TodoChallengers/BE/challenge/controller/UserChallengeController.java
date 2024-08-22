@@ -15,21 +15,21 @@ public class UserChallengeController {
     @Autowired
     private UserChallengeService userChallengeService;
 
-    @PostMapping("/user/challenge")
+    @PostMapping("/challenge")
     public Challenge participateChallenge(@RequestBody UserChallengeRequestDto requestDto) {
         UUID userId = requestDto.getUserId();
         UUID challengeId = requestDto.getChallengeId();
         return userChallengeService.participateInChallenge(userId,challengeId);
     }
 
-    @DeleteMapping("/user/challenge")
+    @DeleteMapping("/challenge")
     public Challenge quiteChallenge(@RequestBody UserChallengeRequestDto requestDto) {
         UUID userId = requestDto.getUserId();
         UUID challengeId = requestDto.getChallengeId();
         return userChallengeService.quiteFromChallenge(userId,challengeId);
     }
 
-    @GetMapping("/user/challenge/{userId}")
+    @GetMapping("/challenge/{userId}")
     public List<Challenge> getChallengeByUserId(@PathVariable UUID userId) {
         return userChallengeService.getAllUserChallenges(userId);
     }
