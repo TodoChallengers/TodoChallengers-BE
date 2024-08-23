@@ -31,6 +31,9 @@ public enum ResponseCode {
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, false, "서버에 오류가 발생하였습니다."),
 
     // 200 OK
+    USER_LOGIN_SUCCESS(HttpStatus.OK, true, "사용자 로그인 성공"),
+    USER_TOKEN_REISSUE_SUCCESS(HttpStatus.OK, true, "사용자 토큰 재발급 성공"),
+    USER_TOKEN_VALIDATE_SUCCESS(HttpStatus.OK, true, "사용자 토큰 검증 성공"),
 
 
     // 201 Created
