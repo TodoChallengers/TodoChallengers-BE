@@ -8,6 +8,9 @@ import org.springframework.data.mongodb.MongoTransactionManager;
 import org.springframework.data.mongodb.config.EnableMongoAuditing;
 import org.springframework.data.mongodb.core.SimpleMongoClientDatabaseFactory;
 import org.springframework.boot.autoconfigure.mongo.MongoProperties;
+import org.springframework.data.mongodb.core.convert.MongoCustomConversions;
+
+import java.util.Arrays;
 
 @Configuration
 @EnableMongoAuditing
@@ -27,5 +30,13 @@ public class MongoDbConfig {
     @Bean
     public MongoTransactionManager transactionManager(MongoDatabaseFactory databaseFactory) {
         return new MongoTransactionManager(databaseFactory);
+    }
+
+    @Bean
+    public MongoCustomConversions customConversions() {
+        return new MongoCustomConversions(Arrays.asList(
+                new ReadingUUIDConverter(),
+                new WritingUUIDConverter()
+        ));
     }
 }
