@@ -4,6 +4,7 @@ import TodoChallengers.BE.challenge.dto.response.ChallengeResponseDto;
 import TodoChallengers.BE.challenge.dto.response.PublicChallengeResponseDto;
 import TodoChallengers.BE.challenge.entity.Challenge;
 import TodoChallengers.BE.challenge.entity.Participant;
+import TodoChallengers.BE.challenge.exception.ChallengeNotFoundException;
 import TodoChallengers.BE.challenge.repository.ChallengeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -56,11 +57,16 @@ public class PublicChallengeService {
         if (challengeRepository.existsById(id)) {
             return challengeRepository.save(challenge);
         } else {
-            throw new IllegalArgumentException(id + "의 챌린지가 없음~");
+            //throw new IllegalArgumentException(id + "의 챌린지가 없음~");
+            throw new ChallengeNotFoundException(id);
         }
     }
 
     public void deleteChallenge(UUID challengeId) {
-        challengeRepository.deleteById(challengeId);
+        if(challengeRepository.existsById(challengeId)) {
+            challengeRepository.deleteById(challengeId);
+        } else {
+            throw new ChallengeNotFoundException(challengeId);
+        }
     }
 }
