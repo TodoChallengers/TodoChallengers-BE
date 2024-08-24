@@ -5,9 +5,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.time.LocalDate;
+import java.util.*;
 
 @Getter
 @NoArgsConstructor
@@ -15,8 +14,19 @@ import java.util.UUID;
 @Builder
 public class ChallengeChecklist {
     private UUID checklistId;
-    private Date checklistDate;
+    private LocalDate checklistDate;
     private String checklistPhoto;
     private String state;
-    private List<Reaction> reaction;
+    private Set<Reaction> reaction = new HashSet<>();
+
+    public void setReaction(Set<Reaction> reaction) {
+        this.reaction = reaction;
+    }
+
+    public void addReaction(Reaction reaction) {
+        if (this.reaction == null) {
+            this.reaction = new HashSet<>();
+        }
+        this.reaction.add(reaction);
+    }
 }

@@ -1,9 +1,9 @@
 package TodoChallengers.BE.challenge.controller;
 
 import TodoChallengers.BE.challenge.application.PublicChallengeService;
-import TodoChallengers.BE.challenge.application.UserChallengeService;
 import TodoChallengers.BE.challenge.dto.request.PublicChallengeRequestDto;
-import TodoChallengers.BE.challenge.dto.request.UserChallengeRequestDto;
+import TodoChallengers.BE.challenge.dto.response.ChallengeResponseDto;
+import TodoChallengers.BE.challenge.dto.response.PublicChallengeResponseDto;
 import TodoChallengers.BE.challenge.entity.Challenge;
 import TodoChallengers.BE.challenge.entity.Participant;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,7 @@ public class PublicChallengeController {
 
     @PostMapping("/challenge")
     public Challenge createChallenge(@RequestBody PublicChallengeRequestDto requestDto) {
-        UUID leaderId = UUID.fromString(requestDto.getChallengeLeaderId());
+        UUID leaderId = requestDto.getChallengeLeaderId();
 
         Challenge challenge = Challenge.builder()
                 .id(UUID.randomUUID()) // 새로운 ID를 자동으로 생성
@@ -47,13 +47,13 @@ public class PublicChallengeController {
     }
 
     @GetMapping("/challenge")
-    public List<Challenge> getAllChallenges() {
+    public List<PublicChallengeResponseDto> getAllChallenges() {
         return publicChallengeService.getAllPublicChallenges();
     }
 
     @GetMapping("/challenge/{id}")
-    public Optional<Challenge> getChallenge(@PathVariable UUID id) {
-        return publicChallengeService.getChallengeById(id);
+    public Optional<ChallengeResponseDto> getChallenge(@PathVariable UUID id) {
+        return publicChallengeService.getPublicChallengeById(id);
     }
 
     @PutMapping("/challenge/{id}")
@@ -65,7 +65,7 @@ public class PublicChallengeController {
                 .end(requestDto.getEnd())
                 .category(requestDto.getCategory())
                 .state(requestDto.getState())
-                .challengeLeaderId(UUID.fromString(requestDto.getChallengeLeaderId()))
+                .challengeLeaderId(requestDto.getChallengeLeaderId())
                 .build();
 
         return publicChallengeService.updateChallenge(id, challenge);
@@ -75,26 +75,4 @@ public class PublicChallengeController {
     public void deleteChallenge(@PathVariable UUID id) {
         publicChallengeService.deleteChallenge(id);
     }
-
-    /*
-    * 모집 중인 챌린지에 사용자 들어가기
-    */
-//    @PostMapping("/user/challenge")
-//    public Challenge participateChallenge(@RequestBody UserChallengeRequestDto requestDto) {
-//        UUID userId = UUID.fromString(requestDto.getUserId());
-//        UUID challengeId = UUID.fromString(requestDto.getChallengeId());
-//        return userChallengeService.participateInChallenge(userId,challengeId);
-//    }
-//
-//    @DeleteMapping("/user/challenge")
-//    public Challenge quiteChallenge(@RequestBody UserChallengeRequestDto requestDto) {
-//        UUID userId = UUID.fromString(requestDto.getUserId());
-//        UUID challengeId = UUID.fromString(requestDto.getChallengeId());
-//        return userChallengeService.quiteFromChallenge(userId,challengeId);
-//    }
-//
-//    @GetMapping("/user/challenge/{userId}")
-//    public List<Challenge> getChallengeByUserId(@PathVariable UUID userId) {
-//        return userChallengeService.getAllUserChallenges(userId);
-//    }
 }

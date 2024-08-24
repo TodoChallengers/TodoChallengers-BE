@@ -1,22 +1,71 @@
 package TodoChallengers.BE.challenge.controller;
 
 import TodoChallengers.BE.challenge.application.ChecklistService;
+import TodoChallengers.BE.challenge.application.S3ImageService;
 import TodoChallengers.BE.challenge.dto.request.ChecklistRequestDto;
+import TodoChallengers.BE.challenge.dto.request.DeleteChecklistRequestDto;
+import TodoChallengers.BE.challenge.dto.response.ChallengeChecklistResponseDto;
 import TodoChallengers.BE.challenge.entity.Challenge;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
+import java.util.Date;
+import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/user")
 public class ChecklistController {
+//    @Autowired
+//    private S3ImageService s3ImageService;
+
     @Autowired
     private ChecklistService checklistService;
 
-    @PostMapping("/checklist")
-    public Challenge certifyChecklist(@RequestBody ChecklistRequestDto requestDto){
-        return checklistService.createChecklist(requestDto);
+    public ChecklistController(ChecklistService checklistService) {
+        this.checklistService = checklistService;
+    }
+
+    @PostMapping(value = "/checklist", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Challenge> createChecklist(
+            @RequestParam("userId") UUID userId,
+            @RequestParam("challengeId") UUID challengeId,
+            @RequestParam("checklistDate") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,
+            @RequestParam("file") MultipartFile checklistPhoto) {
+
+        System.out.println("date!!"+date);
+
+        // DTO 생성 및 데이터 설정
+        ChecklistRequestDto requestDto = new ChecklistRequestDto();
+        ChecklistRequestDto.ChecklistDto checklistDto = new ChecklistRequestDto.ChecklistDto();
+        checklistDto.setChallengeId(challengeId);
+        checklistDto.setChecklistDate(date); // Date 형식에 맞게 변환
+        checklistDto.setChecklistPhoto(checklistPhoto);
+
+        requestDto.setUserId(userId);
+        requestDto.setChecklist(checklistDto);
+
+        // 서비스 호출
+        Challenge createdChallenge = checklistService.createChecklist(requestDto);
+
+        return ResponseEntity.ok(createdChallenge);
+    }
+
+    @DeleteMapping("/checklist")
+    public ResponseEntity<Challenge> deleteChecklist(@RequestBody DeleteChecklistRequestDto requestDto){
+        checklistService.deleteChecklist(requestDto);
+        return ResponseEntity.ok().build();
+    }
+
+    // 오늘 날짜 모든 참가자의 인증
+    @GetMapping("/checklist/today/{challengeId}")
+    public Optional<ChallengeChecklistResponseDto> getTodayChecklistForChallenge(@PathVariable("challengeId") UUID challengeId){
+        return checklistService.getTodayCechklistsForChallenge(challengeId);
     }
 }
