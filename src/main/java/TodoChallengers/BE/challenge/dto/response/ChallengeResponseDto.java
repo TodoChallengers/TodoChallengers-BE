@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Set;
 import java.util.UUID;
@@ -16,8 +17,8 @@ public class ChallengeResponseDto {
     private UUID challengeID;
     private String challengeName;
     private UUID challengeLeaderId;
-    private Date start;
-    private Date end;
+    private LocalDate start;
+    private LocalDate end;
     private String category;
     private Set<UUID> participants;
 }
