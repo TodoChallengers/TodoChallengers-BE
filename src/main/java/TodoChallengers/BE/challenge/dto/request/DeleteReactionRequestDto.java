@@ -9,8 +9,10 @@ import java.util.UUID;
 @Getter
 @Data
 @NoArgsConstructor
-public class UserChallengeRequestDto {
-    private UUID userId; // 사용자 ID
-    //private String token; // 추후 추가 예정
+public class DeleteReactionRequestDto {
+    private UUID userId;
+    //private String token;
     private UUID challengeId;
+    private UUID checklistId;
+    private UUID reactionId;
 }

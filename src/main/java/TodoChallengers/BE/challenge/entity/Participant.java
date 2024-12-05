@@ -5,9 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Getter
 @NoArgsConstructor
@@ -15,11 +13,11 @@ import java.util.UUID;
 @Builder
 public class Participant {
     private UUID participantId;
-    private List<ChallengeChecklist> challengeChecklist;
+    private Set<ChallengeChecklist> challengeChecklist = new HashSet<>();;
 
     public void addChecklist(ChallengeChecklist checklist) {
         if (this.challengeChecklist == null) {
-            this.challengeChecklist = new ArrayList<>();
+            this.challengeChecklist = new HashSet<>();
         }
         this.challengeChecklist.add(checklist);
     }
